@@ -1,0 +1,67 @@
+body {
+    margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;    
+}
+
+header {
+    color: white;
+    text-indent: 10px;
+    font-family: Tahoma, sans-serif;
+    font-weight: normal;
+}
+.logo {
+    float: left;
+    padding-right: 20px;
+    background-color: rgb(234, 80, 71);
+    padding-top: 10px;
+    padding-bottom: 13px;
+}
+.header {
+    font-size: 24px;
+    background-color: rgb(39, 53, 74);
+    margin: 0px;
+    padding: 5px;
+}
+footer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    background-color: rgb(39, 53, 74);
+    margin: 0px;
+    padding: 5px;
+}
+
+/* Block classes */
+.boxed { 
+    border: thin solid black; 
+    padding-top: 10px;
+    padding-left: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+/* Inline classes */
+.big {
+    font-size: 1.4em;
+    font-family: 'Arial Narrow', Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+.little {
+    font-size: 0.7em;
+}
+.italics {
+    font-style: italic;
+}
+
+/* Bootstrap elements */
+.modal-header {
+    color: white;
+    background-color: rgb(39, 53, 74);
+}
+#modalMovies {
+    padding-left: 30px;
+    padding-right: 30px;
+}
