@@ -3,7 +3,7 @@
  * Encapsulates a connection to the database 
  * 
  * @author Arturo Mora-Rioja
- * @date   January 2019
+ * @date   September 2019
  */
     class DB {
 
@@ -13,16 +13,27 @@
          * @returns a connection object
          */
         public function connect() {
-            $cServer = "localhost";
-            $cDB = "movies";
-            $cUser = "root";
-            $cPwd = "";
-            $cnDB = @new mysqli($cServer, $cUser, $cPwd, $cDB); 
-            if ($cnDB->connect_error) {
-                die("Connection unsuccessful: " . $cnDB->connect_error());
+            $cServer = 'localhost';
+            $cDB = 'movies';
+            $cUser = 'root';
+            $cPwd = '';
+
+            $cDSN = 'mysql:host=' . $cServer . ';dbname=' . $cDB . ';charset=utf8';
+            $cOptions = [
+                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES   => false,
+            ];
+
+            try {
+                $cnDB = @new PDO($cDSN, $cUser, $cPwd, $cOptions); 
+            } catch (\PDOException $oException) {
+                echo 'Connection unsuccessful';
+                die('Connection unsuccessful: ' . $cnDB->connect_error());
                 exit();
-            } else 
-                return($cnDB);   
+            }
+            
+            return($cnDB);   
         }
 
         /**
@@ -31,7 +42,7 @@
          * @param the connection object to disconnect
          */
         public function disconnect($pcnDB) {
-            return(mysqli_close($pcnDB));
+            $pcnDB = null;
         }
     }
 ?>

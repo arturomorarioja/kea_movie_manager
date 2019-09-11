@@ -3,9 +3,9 @@
  * Movie class
  * 
  * @author Arturo Mora-Rioja
- * @date   January 2019
+ * @date   January/September 2019
  */
-include("connection.php");
+require_once("connection.php");
 
     class Movie {
         /**
@@ -19,13 +19,44 @@ include("connection.php");
             if ($con) {
                 $results = array();
 
-                $sql = "SELECT nMovieID, cName FROM movies ORDER BY cName";
+                $cQuery = 'SELECT nMovieID, cName FROM movies ORDER BY cName';
 
-                $query = $con->query($sql);
-                while($row = $query->fetch_row())
-                    $results[] = $row;
+                $stmt = $con->query($cQuery);
+                while($row = $stmt->fetch())
+                    $results[] = [$row["nMovieID"], $row["cName"]];
 
-                $query->close();
+                $stmt = null;
+                $db->disconnect($con);
+                
+                return($results);
+
+            } else 
+                return false;
+        }
+
+        /**
+         * Retrieves the movies whose name matches a certain text
+         * 
+         * @param text upon which to execute the search
+         * @return matching movie fields (ID, movie name) ordered by movie name
+         */
+        function search($pcSearchText) {
+            $db = new DB();
+            $con = $db->connect();
+            if ($con) {
+                $results = array();
+
+                $cQuery = 'SELECT nMovieID, cName ' . 
+                    'FROM movies ' .
+                    'WHERE cName LIKE ? ' .
+                    'ORDER BY cName';
+
+                $stmt = $con->prepare($cQuery);
+                $stmt->execute(['%' . $pcSearchText . '%']);
+                while($row = $stmt->fetch())
+                    $results[] = [$row["nMovieID"], $row["cName"]];
+
+                $stmt = null;
                 $db->disconnect($con);
                 
                 return($results);
@@ -40,18 +71,19 @@ include("connection.php");
          * @param name of the new movie
          * @return true if the insertion was correct, false if there was an error
          */
-        function add($movieName) {
+        function add($pcMovieName) {
             $db = new DB();
             $con = $db->connect();
             if ($con) {
-                $query = "INSERT INTO " .
-                    "movies " .
-                    "(cName) " .
-                    "VALUES (" .
-                    "'" . $movieName . "'" .
-                    ")";
+                $cQuery = 'INSERT INTO ' .
+                    'movies ' .
+                        '(cName) ' .
+                    'VALUES (?)';
 
-                $ok = $con->query($query);
+                $stmt = $con->prepare($cQuery);
+                $ok = $stmt->execute([$pcMovieName]);
+
+                $stmt = null;                
                 $db->disconnect($con);
                 
                 return ($ok);
@@ -67,18 +99,21 @@ include("connection.php");
          * @param new name of the movie
          * @return true if the update was correct, false if there was an error
          */
-        function update($movieID, $movieName) {
+        function update($pnMovieID, $pcMovieName) {
             $db = new DB();
             $con = $db->connect();
             if ($con) {
-                $query = "UPDATE " .
-                    "movies " .
-                    "SET " .
-                    "cName = '" . $movieName . "'" .
-                    "WHERE " .
-                    "nMovieID = " . $movieID;
+                $cQuery = 'UPDATE ' .
+                    'movies ' .
+                    'SET ' .
+                    'cName = ? ' .
+                    'WHERE ' .
+                    'nMovieID = ?';
 
-                $ok = $con->query($query);
+                $stmt = $con->prepare($cQuery);
+                $ok = $stmt->execute([$pcMovieName, $pnMovieID]);  
+
+                $stmt = null;                
                 $db->disconnect($con);
                 
                 return ($ok);
@@ -93,16 +128,19 @@ include("connection.php");
          * @param id of the movie to delete
          * @return true if the deletion was correct, false if there was an error
          */
-        function delete($movieID) {
+        function delete($pnMovieID) {
             $db = new DB();
             $con = $db->connect();
             if ($con) {
-                $query = "DELETE FROM " .
-                    "movies " .
-                    "WHERE " .
-                    "nMovieID = " . $movieID;
+                $cQuery = 'DELETE FROM ' .
+                    'movies ' .
+                    'WHERE ' .
+                    'nMovieID = ?';
 
-                $ok = $con->query($query);
+                $stmt = $con->prepare($cQuery);
+                $ok = $stmt->execute([$pnMovieID]);
+
+                $stmt = null;                
                 $db->disconnect($con);
                 
                 return ($ok);

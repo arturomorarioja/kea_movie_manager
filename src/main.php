@@ -5,13 +5,16 @@
  * @author Arturo Mora-Rioja
  * @date   January 2019
  */
-include("movie.php");
+require_once("movie.php");
 
     $movie = new Movie();
 
     switch($_POST['action']) {
         case 'load':
             echo json_encode($movie->list());
+            break;
+        case 'search':
+            echo json_encode($movie->search($_POST['movie_search_text']));
             break;
         case 'add':
             echo json_encode($movie->add($_POST['movie_name']));

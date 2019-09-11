@@ -3,11 +3,33 @@ $(document).ready(function() {
  * jQuery functionality
  * 
  * @author Arturo Mora-Rioja
- * @date   January 2019
+ * @date   January/September 2019
  */
 
     // Initial movie load
     FLoadMovies();
+
+    // Movie search
+    // Added September 2019
+    $("#txtMovieSearch").on("input", function(event) {
+        $("#lstMovies").empty();
+        $.ajax({
+            url: "src/main.php",
+            type: "POST",
+            data: {
+                action: "search",
+                movie_search_text: $("#txtMovieSearch").val()
+            },            
+            success: function(data){
+                var MOVIE_ID = 0;
+                var NAME = 1;
+                var acMovies = JSON.parse(data);
+                $.each(acMovies, function(index, value) {
+                    $("#lstMovies").append(new Option(value[NAME], value[MOVIE_ID]));
+                });
+            }
+        });
+    });
 
     // Button enabling    
     $("#lstMovies").on("change", function() {
@@ -105,7 +127,6 @@ function FLoadMovies() {
             var MOVIE_ID = 0;
             var NAME = 1;
             var acMovies = JSON.parse(data);
-
             $.each(acMovies, function(index, value) {
                 $("#lstMovies").append(new Option(value[NAME], value[MOVIE_ID]));
             });
