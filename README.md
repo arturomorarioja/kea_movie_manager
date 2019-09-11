@@ -1,8 +1,8 @@
-# KEA.dk. Technology 1 - Web App Example
+# KEA.dk. Databases - Web App Example
 # Movie Manager
 
 ## Purpose
-This is a sample web application for students of the subject Technology 1 in the Academy Profession Degree in Computer Science at KEA (Københavns Erhvervsakademi). The application is a movie manager C.R.U.D. where the user can browse, add, modify, and delete names of movies.
+This is a sample web application for students of the subject Databases in the Top-Up Degree in Web Development at KEA (Københavns Erhvervsakademi / Copenhagen School of Design and Technology). The application is a movie manager C.R.U.D. where the user can browse, search, add, modify, and delete names of movies.
 
 ## Tools
-HTML5 / Css / Bootstrap 4 / JavaScript / jQuery / Ajax / php / MariaDB
+PHP / MariaDB / jQuery / Ajax / JavaScript / Bootstrap 4 / CSS / HTML5
