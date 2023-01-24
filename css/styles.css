@@ -44,12 +44,15 @@ header {
 
 footer {
     position: fixed;
-    bottom: 0px;
+    bottom: 0;
     width: 100%;
     text-align: center;
     color: var(--colourBgMain);
     background-color: var(--colourBgSecondary);
     padding: 0.25rem;
+}
+footer > p {
+    margin: 0;
 }
 
 /* Block classes */
