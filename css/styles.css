@@ -1,52 +1,70 @@
+:root {
+    --colourTextMain: black;
+
+    --colourBgMain: white;
+    --colourBgSecondary: rgb(39, 53, 74);
+    --colourBgTertiary: rgb(234, 80, 71);
+
+    --fontMain: Arial, Helvetica, sans-serif;
+    --fontHeader: Tahoma, sans-serif;
+    --fontHeaderBig: 'Arial Narrow', Arial, Helvetica, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    margin: 0px;
-    font-family: Arial, Helvetica, sans-serif;    
+    font-family: var(--fontMain);    
 }
 
 header {
-    color: white;
-    text-indent: 10px;
-    font-family: Tahoma, sans-serif;
+    display: flex;
+    flex-flow: row wrap;
+    color: var(--colourBgMain);
+    background-color: var(--colourBgSecondary);
+    font-family: var(--fontHeader);
     font-weight: normal;
 }
 .logo {
     float: left;
+    text-indent: 1rem;
     padding-right: 20px;
-    background-color: rgb(234, 80, 71);
+    background-color: var(--colourBgTertiary);
     padding-top: 10px;
     padding-bottom: 13px;
 }
 .header {
-    font-size: 24px;
-    background-color: rgb(39, 53, 74);
-    margin: 0px;
-    padding: 5px;
+    font-size: 1.5rem;
+    padding: 0.315rem;
+    padding-left: 1rem;
 }
+
 footer {
     position: fixed;
     bottom: 0px;
     width: 100%;
     text-align: center;
-    color: white;
-    background-color: rgb(39, 53, 74);
-    margin: 0px;
-    padding: 5px;
+    color: var(--colourBgMain);
+    background-color: var(--colourBgSecondary);
+    padding: 0.25rem;
 }
 
 /* Block classes */
 .boxed { 
-    border: thin solid black; 
-    padding-top: 10px;
-    padding-left: 30px;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 10px;
+    border: thin solid var(--colourTextMain); 
+    border-radius: 0.5rem;
+    padding-left: 1rem;
+    margin: 0.5rem;
+    margin-bottom: 0;
 }
 
 /* Inline classes */
 .big {
     font-size: 1.4em;
-    font-family: 'Arial Narrow', Arial, Helvetica, sans-serif;
+    font-family: var(--fontHeaderBig);
     font-weight: bold;
 }
 .little {
@@ -58,10 +76,9 @@ footer {
 
 /* Bootstrap elements */
 .modal-header {
-    color: white;
-    background-color: rgb(39, 53, 74);
+    color: var(--colourBgMain);
+    background-color: var(--colourBgSecondary);
 }
 #modalMovies {
-    padding-left: 30px;
-    padding-right: 30px;
+    padding: 0 1.5rem;
 }
