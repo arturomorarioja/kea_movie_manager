@@ -1,9 +1,12 @@
-$(document).ready(function() {
+/* eslint-disable no-undef */
+'use strict';
+$(function() {
 /**
  * jQuery functionality
  * 
- * @author Arturo Mora-Rioja
- * @date   January/September 2019
+ * @author  Arturo Mora-Rioja
+ * @version 1.0.0 January/September 2019
+ *          1.0.1 Linting, code style improvement
  */
 
     // Initial movie load
@@ -11,103 +14,104 @@ $(document).ready(function() {
 
     // Movie search
     // Added September 2019
-    $("#txtMovieSearch").on("input", function(event) {
-        $("#lstMovies").empty();
+    $('#txtMovieSearch').on('input', function() {
+        $('#lstMovies').empty();
         $.ajax({
-            url: "src/main.php",
-            type: "POST",
+            url: 'src/main.php',
+            type: 'POST',
             data: {
-                action: "search",
-                movie_search_text: $("#txtMovieSearch").val()
+                action: 'search',
+                movie_search_text: $('#txtMovieSearch').val()
             },            
             success: function(data){
-                var MOVIE_ID = 0;
-                var NAME = 1;
-                var acMovies = JSON.parse(data);
+                const MOVIE_ID = 0;
+                const NAME = 1;
+                const acMovies = JSON.parse(data);
                 $.each(acMovies, function(index, value) {
-                    $("#lstMovies").append(new Option(value[NAME], value[MOVIE_ID]));
+                    $('#lstMovies').append(new Option(value[NAME], value[MOVIE_ID]));
                 });
             }
         });
     });
 
     // Button enabling    
-    $("#lstMovies").on("change", function() {
-        if($(this).val() == null) {
-            $("#btnModify").prop("disabled", "disabled");
-            $("#btnDelete").prop("disabled", "disabled");
+    $('#lstMovies').on('change', function() {
+        if($(this).val() === null) {
+            $('#btnModify').prop('disabled', 'disabled');
+            $('#btnDelete').prop('disabled', 'disabled');
         } else {
-            $("#btnModify").prop("disabled", "");
-            $("#btnDelete").prop("disabled", "");
+            $('#btnModify').prop('disabled', '');
+            $('#btnDelete').prop('disabled', '');
         }
     });
 
     // Modal button enabling
-    $("#txtMovie").on("change", function() {
-        if($(this).val() == "")
-            $("#btnOk").prop("disabled", "disabled");
+    $('#txtMovie').on('change', function() {
+        if($(this).val() === '')
+            $('#btnOk').prop('disabled', 'disabled');
         else
-            $("#btnOk").prop("disabled", "");
+            $('#btnOk').prop('disabled', '');
     });
 
     // Add button clicked
-    $("#btnAdd").click(function() {
-        $("#txtMovie").val("");
-        $("#modalCaption").text("Add Movie");
+    $('#btnAdd').click(function() {
+        $('#txtMovie').val('');
+        $('#modalCaption').text('Add Movie');
 
     });
 
     // Modify button clicked
-    $("#btnModify").click(function() {
-        $("#txtMovie").val($("#lstMovies option:selected").text());
-        $("#modalCaption").text("Modify Movie");
+    $('#btnModify').click(function() {
+        $('#txtMovie').val($('#lstMovies option:selected').text());
+        $('#modalCaption').text('Modify Movie');
     });
 
     // Delete button clicked
-    $("#btnDelete").click(function() {
-        if (window.confirm("The movie will be deleted. Are you sure?"))
+    $('#btnDelete').click(function() {
+        if (window.confirm('The movie will be deleted. Are you sure?'))
             $.ajax({
-                url: "src/main.php",
-                type: "POST",
+                url: 'src/main.php',
+                type: 'POST',
                 data: {
-                    action: "delete",
-                    movie_id: $("#lstMovies").val()
+                    action: 'delete',
+                    movie_id: $('#lstMovies').val()
                 },
                 success: function(data){
                     const RES_OK = 1;                    
-                    var result = JSON.parse(data);
+                    const result = JSON.parse(data);
 
-                    if (result == RES_OK)
+                    if (result === RES_OK)
                         FLoadMovies();
                     else
-                        alert("The movie could not be deleted");
+                        alert('The movie could not be deleted');
                 }
             });
     });
 
     // Ok button clicked
-    $("#btnOk").click(function() {
-        if ($("#modalCaption").text() == "Add Movie"){      // Add movie
+    $('#btnOk').click(function() {
+        let data;
+        if ($('#modalCaption').text() === 'Add Movie'){      // Add movie
             data = {
-                action: "add",
-                movie_name: $("#txtMovie").val()
+                action: 'add',
+                movie_name: $('#txtMovie').val()
             };
 
-            $.post("src/main.php", data, function(d){
-                $("#btnCancel").click();
+            $.post('src/main.php', data, function(){
+                $('#btnCancel').click();
                 FLoadMovies();
             });
         } else {                                            // Modify movie
             data = {
-                action: "modify",
-                movie_id: $("#lstMovies").val(),
-                movie_name: $("#txtMovie").val()
+                action: 'modify',
+                movie_id: $('#lstMovies').val(),
+                movie_name: $('#txtMovie').val()
             };
 
-            $.post("src/main.php", data, function(d){
-                $("#btnCancel").click();
+            $.post('src/main.php', data, function(){
+                $('#btnCancel').click();
                 FLoadMovies();
-                $("#lstMovies").trigger("change");
+                $('#lstMovies').trigger('change');
             });
         }
     });
@@ -118,17 +122,17 @@ $(document).ready(function() {
  * Loads all the movies in the listBox in alphabetic order
  */
 function FLoadMovies() {
-    $("#lstMovies").empty();
+    $('#lstMovies').empty();
     $.ajax({
-        url: "src/main.php",
-        type: "POST",
-        data: {action: "load"},
+        url: 'src/main.php',
+        type: 'POST',
+        data: {action: 'load'},
         success: function(data){
-            var MOVIE_ID = 0;
-            var NAME = 1;
-            var acMovies = JSON.parse(data);
+            const MOVIE_ID = 0;
+            const NAME = 1;
+            const acMovies = JSON.parse(data);
             $.each(acMovies, function(index, value) {
-                $("#lstMovies").append(new Option(value[NAME], value[MOVIE_ID]));
+                $('#lstMovies').append(new Option(value[NAME], value[MOVIE_ID]));
             });
         }
     });
